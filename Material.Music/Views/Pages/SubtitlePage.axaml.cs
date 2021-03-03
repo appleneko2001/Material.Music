@@ -38,7 +38,7 @@ namespace Material.Music.Views.Pages
 
         public async void SearchSubtitle()
         {
-            var dialog = DialogHelper.CreateCustomDialog(new CustomDialogBuilderParams()
+            /*var dialog = DialogHelper.CreateCustomDialog(new CustomDialogBuilderParams()
             {
                 Borderless = true,
                 DialogButtons = DialogHelper.CreateSimpleDialogButtons(DialogButtonsEnum.OkCancel),
@@ -46,7 +46,7 @@ namespace Material.Music.Views.Pages
                 Width = 800,
                 Content = new SearchSubtitleDialog()
             });
-            await dialog.ShowDialog(MainWindow.Instance);
+            await dialog.ShowDialog(MainWindow.Instance);*/
         }
 
         public static Control CreateActionMenu(MaterialIconKind iconKind, Action onClick, string tip)
