@@ -1,0 +1,4 @@
+[submodule "material.avalonia"]
+	path = material.avalonia
+	url = https://github.com/AvaloniaUtils/material.avalonia/
+	branch = dev
