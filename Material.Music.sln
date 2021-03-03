@@ -6,6 +6,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Material.Avalonia", ".\mate
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Material.Dialog", ".\material.avalonia\Material.Dialog\Material.Dialog.csproj", "{39372D2B-3345-40D7-891D-39D1A5D708F3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Material.Styles", "material.avalonia\Material.Styles\Material.Styles.csproj", "{5B451FCB-3466-43B1-85AB-9AEE7D115983}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Material.Colors", "material.avalonia\Material.Colors\Material.Colors.csproj", "{31D1DC6B-752D-461F-B2CC-219F876D3273}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Material.Ripple", "material.avalonia\Material.Ripple\Material.Ripple.csproj", "{FBCD5354-3441-4700-BEDC-F9F5E2DAD7C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +30,17 @@ Global
 		{39372D2B-3345-40D7-891D-39D1A5D708F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39372D2B-3345-40D7-891D-39D1A5D708F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39372D2B-3345-40D7-891D-39D1A5D708F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B451FCB-3466-43B1-85AB-9AEE7D115983}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B451FCB-3466-43B1-85AB-9AEE7D115983}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B451FCB-3466-43B1-85AB-9AEE7D115983}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B451FCB-3466-43B1-85AB-9AEE7D115983}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31D1DC6B-752D-461F-B2CC-219F876D3273}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31D1DC6B-752D-461F-B2CC-219F876D3273}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31D1DC6B-752D-461F-B2CC-219F876D3273}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31D1DC6B-752D-461F-B2CC-219F876D3273}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBCD5354-3441-4700-BEDC-F9F5E2DAD7C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBCD5354-3441-4700-BEDC-F9F5E2DAD7C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBCD5354-3441-4700-BEDC-F9F5E2DAD7C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBCD5354-3441-4700-BEDC-F9F5E2DAD7C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
