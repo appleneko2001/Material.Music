@@ -49,30 +49,11 @@ jobs:
       if: matrix.runtime == 'linux-x64'
       run: cp -vRT "/home/runner/work/Material.Music/Material.Music/NativeLibs/Linux/x64/" "/home/runner/work/Material.Music/Material.Music/Material.Music/bin/Release/netcoreapp3.1/linux-x64/publish/"
 
-
-    - name: Archive publish files to zip
-      run: zip -r "Material.Music-${{ matrix.runtime }}.zip" "/home/runner/work/Material.Music/Material.Music/Material.Music/bin/Release/netcoreapp3.1/${{ matrix.runtime }}/publish/"
-
-    - name: Upload build artifacts 
+    - name: Upload artifacts 
       uses: actions/upload-artifact@v2
-      if: matrix.runtime == 'win-x64'
       with:
-        name: Windows x64 Binaries
-        path: Material.Music-win-x64.zip
-        
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v2
-      if: matrix.runtime == 'win-x86'
-      with:
-        name: Windows x86 Binaries
-        path: Material.Music-win-x86.zip
-        
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v2
-      if: matrix.runtime == 'linux-x64'
-      with:
-        name: Linux x64 Binaries
-        path: Material.Music-linux-x64.zip
+        name: Material.Music-${{ matrix.runtime }}
+        path: /home/runner/work/Material.Music/Material.Music/Material.Music/bin/Release/netcoreapp3.1/${{ matrix.runtime }}/publish
 
 
 
