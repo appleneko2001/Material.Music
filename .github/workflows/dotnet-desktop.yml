@@ -13,9 +13,6 @@ jobs:
     strategy:
       matrix:
         runtime: [win-x64, linux-x64, win-x86]
-      
-    env:
-      Solution_Name: Material.Music.sln
 
     steps:
     - name: Checkout
@@ -28,7 +25,10 @@ jobs:
       with:
         dotnet-version: 3.1.403
         
-    - name: Install dependencies
+    - name: Restore material.avalonia
+      run: dotnet restore ./material.avalonia/Material.Avalonia.sln
+        
+    - name: Restore dependencies
       run: dotnet restore
       
     - name: Build
