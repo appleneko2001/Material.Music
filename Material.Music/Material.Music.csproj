@@ -19,7 +19,7 @@
         <PackageReference Include="taglib-sharp-netstandard2.0" Version="2.1.0" />
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\..\material.avalonia\Material.Avalonia\Material.Avalonia.csproj" />
-      <ProjectReference Include="..\..\material.avalonia\Material.Dialog\Material.Dialog.csproj" />
+      <ProjectReference Include="..\material.avalonia\Material.Avalonia\Material.Avalonia.csproj" />
+      <ProjectReference Include="..\material.avalonia\Material.Dialog\Material.Dialog.csproj" />
     </ItemGroup>
 </Project>
