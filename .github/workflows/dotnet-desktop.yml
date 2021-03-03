@@ -13,74 +13,68 @@ jobs:
     strategy:
       matrix:
         runtime: [win-x64, linux-x64, win-x86]
-      
-    env:
-      Solution_Name: Material.Music.sln
 
     steps:
     - name: Checkout
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
-
-    - name: Checkout Material.Avalonia nightly
-      uses: actions/checkout@master
-      with:
-        repository: AvaloniaUtils/material.avalonia
-        path: ../material.avalonia
+        
+    - name: Initialize submodule
+      run: git submodule update --init
 
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.403
         
-    - name: Install dependencies
+    - name: Restore material.avalonia
+      run: dotnet restore ./material.avalonia/Material.Avalonia.sln
+        
+    - name: Restore dependencies
       run: dotnet restore
       
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-      
     - name: Publish
-      run: dotnet publish --configuration Release --no-self-contained
+      run: dotnet publish --configuration Release --no-self-contained --runtime "${{ matrix.runtime }}"
 
     - name: Copy NativeLibs (for Windows x64)
       uses: andstor/copycat-action@v3
-      if: strategy.runtime == 'win-x64'
+      if: matrix.runtime == 'win-x64'
       with:
         src_path: "/home/runner/work/Material.Music/NativeLibs/Windows/x64"
         target: "/home/runner/work/Material.Music/Material.Music/bin/Release/netcoreapp3.1/win-x64/publish/"
         
     - name: Copy NativeLibs (for Windows x86)
       uses: andstor/copycat-action@v3
-      if: strategy.runtime == 'win-x86'
+      if: matrix.runtime == 'win-x86'
       with:
         src_path: "/home/runner/work/Material.Music/NativeLibs/Windows/x86"
         target: "/home/runner/work/Material.Music/Material.Music/bin/Release/netcoreapp3.1/win-x86/publish/"
         
     - name: Copy NativeLibs (for Linux x64)
       uses: andstor/copycat-action@v3
-      if: strategy.runtime == 'linux-x64'
+      if: matrix.runtime == 'linux-x64'
       with:
         src_path: "/home/runner/work/Material.Music/NativeLibs/Linux/x64"
         target: "/home/runner/work/Material.Music/Material.Music/bin/Release/netcoreapp3.1/linux-x64/publish/"
 
     - name: Upload build artifacts 
       uses: actions/upload-artifact@v2
-      if: strategy.runtime == 'win-x64'
+      if: matrix.runtime == 'win-x64'
       with:
         name: Windows x64 Binaries
         path: "/home/runner/work/Material.Music/Material.Music/bin/Release/netcoreapp3.1/win-x64/publish/"
         
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
-      if: strategy.runtime == 'win-x86'
+      if: matrix.runtime == 'win-x86'
       with:
         name: Windows x86 Binaries
         path: "/home/runner/work/Material.Music/Material.Music/bin/Release/netcoreapp3.1/win-x86/publish/"
         
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
-      if: strategy.runtime == 'linux-x64'
+      if: matrix.runtime == 'linux-x64'
       with:
         name: Linux x64 Binaries
         path: "/home/runner/work/Material.Music/Material.Music/bin/Release/netcoreapp3.1/linux-x64/publish/"
