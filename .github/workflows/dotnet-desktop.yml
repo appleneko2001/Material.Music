@@ -15,8 +15,7 @@ jobs:
         runtime: [win-x64, linux-x64, win-x86]
       
     env:
-      Solution_Name: Material.Music.sln                         # Replace with your solution name, i.e. MyWpfApp.sln.
-      Configuration: Release
+      Solution_Name: Material.Music.sln
 
     steps:
     - name: Checkout
@@ -33,10 +32,10 @@ jobs:
       run: dotnet restore
       
     - name: Build
-      run: dotnet build --configuration ${{ Configuration }} --no-restore
+      run: dotnet build --configuration Release --no-restore
       
     - name: Publish
-      run: dotnet publish --configuration ${{ Configuration }} --no-self-contained
+      run: dotnet publish --configuration Release --no-self-contained
 
     - name: Copy NativeLibs (for Windows x64)
       uses: andstor/copycat-action@v3
