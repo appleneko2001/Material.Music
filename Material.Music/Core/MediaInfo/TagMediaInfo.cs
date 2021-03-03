@@ -1,12 +1,12 @@
-﻿using ReactiveUI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Material.Music.ViewModels;
 
 namespace Material.Music.Core.MediaInfo
 {
-    public class TaglibMediaInfo : ReactiveObject, IMediaInfo
+    public class TaglibMediaInfo : ViewModelBase, IMediaInfo
     {
         #region Constructor
         /// <summary>
@@ -59,7 +59,7 @@ namespace Material.Music.Core.MediaInfo
         } 
         private void NotifyUpdate([CallerMemberName] string memberName = null)
         {
-            this.RaisePropertyChanged(memberName);
+            this.OnPropertyChanged(memberName);
         }
         #endregion
         #region Private members

@@ -1,16 +1,16 @@
 ﻿using Material.Music.Appleneko2001;
 using ManagedBass;
-using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Material.Music.Core.Interfaces;
 using Material.Music.ManagedBassFix.Tags;
+using Material.Music.ViewModels;
 
 namespace Material.Music.Core.MediaInfo
 {
-    public class BassTagMediaInfo : ReactiveObject, IMediaInfo
+    public class BassTagMediaInfo : ViewModelBase, IMediaInfo
     {
         #region Constructor
         public BassTagMediaInfo()
@@ -64,7 +64,7 @@ namespace Material.Music.Core.MediaInfo
         #region Private methods
         private void NotifyUpdate([CallerMemberName] string memberName = null)
         {
-            this.RaisePropertyChanged(memberName);
+            this.OnPropertyChanged(memberName);
         }
 
         private void ReadTags(int channelId)

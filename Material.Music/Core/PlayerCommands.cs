@@ -1,18 +1,19 @@
 ﻿using Material.Music.Core.Interfaces;
 using Material.Music.Models;
-using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
+using ManagedBass;
+using Material.Music.Commands;
 using Material.Music.Core.Engine;
 using Material.Music.Core.LocalMedia;
 using Material.Music.ViewModels;
 
 namespace Material.Music.Core
 {
-    public class PlayerCommands : ReactiveObject
+    public class PlayerCommands
     {
         #region Instance manager, constructor and player context reference.
         public static PlayerCommands GetInstance() => _instance;
@@ -30,37 +31,30 @@ namespace Material.Music.Core
         {
             CurrentContext = PlayerContext.GetInstance();
 
-            var canExecutePlayPauseCommand = this.WhenAnyValue<PlayerCommands, bool, BassChannel>(c => c.CurrentContext.MediaChannel, c => c != null);
-            canExecutePlayPauseCommand.Subscribe();
-            PlayPauseCommand = ReactiveCommand.Create<BassChannel>(OnPlayPauseCommandExecuted, canExecutePlayPauseCommand);
-            PlayPauseCommand.Subscribe();
-
-            MuteCommand = ReactiveCommand.Create(() => OnMuteCommandExecuted(CurrentContext));
-            MuteCommand.Subscribe();
-
-            PlayMediaCommand = ReactiveCommand.Create<PlayableBase>(OnPlayMediaCommandExecuted); 
-            PlayMediaCommand.Subscribe();
+            PlayPauseCommand = new RelayCommand(OnPlayPauseCommandExecuted, CanExecutePlayPauseCommand);
+            MuteCommand = new RelayCommand((p) => OnMuteCommandExecuted(CurrentContext));
+            PlayMediaCommand = new RelayCommand(OnPlayMediaCommandExecuted);
         }
         #endregion
 
         #region Properties
-        public ReactiveCommand<BassChannel, Unit> PlayPauseCommand { get; }
+        public RelayCommand PlayPauseCommand { get; }
 
-        public ReactiveCommand<Unit, Unit> MuteCommand { get; }
+        public RelayCommand MuteCommand { get; }
 
-        public ReactiveCommand<PlayableBase, Unit> PlayMediaCommand { get; }
+        public RelayCommand PlayMediaCommand { get; }
         #endregion
 
         #region Methods for commands use
-        private static void OnPlayMediaCommandExecuted(PlayableBase media)
-        {
-            var engine = BassEngine.GetInstance();
-            var channel = engine.CreateChannel(media as PlayableBase);
-            channel?.Resume();
-        }
 
-        private static void OnPlayPauseCommandExecuted(BassChannel channel)
+        private static bool CanExecutePlayPauseCommand(object channel)
         {
+            return channel != null;
+        }
+        
+        private static void OnPlayPauseCommandExecuted(object param)
+        {
+            var channel = param as BassChannel;
             if (channel is null)
                 return;
             
@@ -71,7 +65,15 @@ namespace Material.Music.Core
         }
 
         private static void OnMuteCommandExecuted(PlayerContext context) => context.Muted = !context.Muted;
-
+        
+        private static void OnPlayMediaCommandExecuted(object param) => OnPlayMediaCommandExecuted(param as PlayableBase);
+        
+        private static void OnPlayMediaCommandExecuted(PlayableBase media)
+        {
+            var engine = BassEngine.GetInstance();
+            var channel = engine.CreateChannel(media as PlayableBase);
+            channel?.Resume();
+        }
         #endregion
 
         #region Public methods

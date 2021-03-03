@@ -1,7 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Media;
 using Avalonia.Styling;
-using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -139,7 +138,16 @@ namespace Material.Music.ViewModels
         
         public IPlaylist CurrentPlaylist { get => _currentPlaylist; set { _currentPlaylist = value; OnPropertyChanged(); } }
 
-        public PlayableBase CurrentMedia { get => _currentMedia; private set { _currentMedia = value; OnPropertyChanged(); } }
+        public PlayableBase CurrentMedia
+        {
+            get => _currentMedia;
+            private set
+            {
+                _currentMedia = value; 
+                OnPropertyChanged();
+                Dispatcher.UIThread.InvokeAsync(PlayerCommands.PlayPauseCommand.RaiseCanExecute);
+            }
+        }
 
         public double CurrentPosition
         {

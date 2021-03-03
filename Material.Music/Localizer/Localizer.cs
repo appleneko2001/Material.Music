@@ -15,17 +15,12 @@ namespace Material.Music.Localizer
         private const string IndexerArrayName = "Item[]";
         private Dictionary<string, string> m_Strings = null;
 
-        public Localizer()
-        {
-
-        }
-
         public bool LoadLanguage(string language)
         {
             Language = language;
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
-            Uri uri = new Uri($"avares://NekoPlayer/Assets/International/{language}.json");
+            Uri uri = new Uri($"avares://Material.Music/Assets/International/{language}.json");
             if (assets.Exists(uri)) {
                 using (StreamReader sr = new StreamReader(assets.Open(uri), Encoding.UTF8)) {
                     m_Strings = JsonConvert.DeserializeObject<Dictionary<string, string>>(sr.ReadToEnd());
@@ -51,7 +46,17 @@ namespace Material.Music.Localizer
             }
         }
 
-        public static Localizer Instance { get; set; } = new Localizer();
+        private static Localizer _instance;
+        public static Localizer Instance
+        {
+            get
+            {
+                if(_instance is null)
+                    _instance = new Localizer();
+                return _instance;
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void Invalidate()
