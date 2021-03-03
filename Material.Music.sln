@@ -2,9 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Material.Music", "Material.Music\Material.Music.csproj", "{20C03151-0567-4EAC-AD69-0134779C6D43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Material.Avalonia", "..\material.avalonia\Material.Avalonia\Material.Avalonia.csproj", "{C85F2E2A-FBCF-4EE6-8728-43AEAFBF1F3D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Material.Avalonia", "material.avalonia\Material.Avalonia\Material.Avalonia.csproj", "{C85F2E2A-FBCF-4EE6-8728-43AEAFBF1F3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Material.Dialog", "..\material.avalonia\Material.Dialog\Material.Dialog.csproj", "{39372D2B-3345-40D7-891D-39D1A5D708F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Material.Dialog", "material.avalonia\Material.Dialog\Material.Dialog.csproj", "{39372D2B-3345-40D7-891D-39D1A5D708F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
