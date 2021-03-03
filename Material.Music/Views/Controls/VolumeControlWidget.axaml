@@ -1,0 +1,22 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:international="clr-namespace:Material.Music.Localizer"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             x:Class="Material.Music.Views.Controls.VolumeControlWidget">
+  <StackPanel Orientation="Horizontal">
+    <Button Classes="Flat" Margin="4" Padding="8"  Width="36" Height="36"
+            Command="{Binding PlayerCommands.MuteCommand}">
+      <avalonia:MaterialIcon Kind="{Binding VolumeButtonIcon}" Width="24" Height="24"/>
+    </Button>
+    <Slider Name="VolumeSlider" Width="100" VerticalAlignment="Center" Maximum="100" Margin="16"
+            SmallChange="1" LargeChange="5" Focusable="False" Value="{Binding Volume, Mode=TwoWay}"
+            TickFrequency="1" IsSnapToTickEnabled="True" Classes="Discrete Modern">
+        <Slider.Styles>
+            <Style Selector="Slider.Discrete Thumb /template/ ContentPresenter#bubble TextBlock">
+                <Setter Property="Margin" Value="8, 0"/>
+            </Style>
+        </Slider.Styles>
+    </Slider>
+  </StackPanel>
+</UserControl>

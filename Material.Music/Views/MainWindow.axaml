@@ -1,0 +1,106 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+        xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+        xmlns:controls="clr-namespace:Material.Music.Views.Controls"
+        xmlns:pages="clr-namespace:Material.Music.Views.Pages"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:viewModels="clr-namespace:Material.Music.ViewModels"
+        xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        x:Class="Material.Music.Views.MainWindow"
+        Background="{DynamicResource MaterialDesignPaper}"
+        MinWidth="800" MinHeight="400"
+        Width="{Binding WindowWidth, Mode=TwoWay}"
+        Height="{Binding WindowHeight, Mode=TwoWay}"
+        Title="Material.Music">
+
+  <styles:NavigationDrawer LeftDrawerOpened="{Binding ElementName=DrawerToggle, Path=IsChecked, Mode=TwoWay}" LeftDrawerWidth="256">
+    <styles:NavigationDrawer.LeftDrawerContent>
+      <ScrollViewer>
+        <ListBox Name="LeftDrawerList" Classes="NoScroll">
+          <ListBox.Styles>
+            <Style Selector="ListBoxItem">
+              <Setter Property="Height" Value="48"/>
+              <Setter Property="Padding" Value="16,0"/>
+              <Setter Property="VerticalContentAlignment" Value="Center"/>
+            </Style>
+          </ListBox.Styles>
+          <TextBlock Classes="Subtitle2" Text="Home"/>
+          <TextBlock Classes="Subtitle2" Text="Subtitle"/>
+          <TextBlock Classes="Subtitle2" Text="Preferences"/>
+        </ListBox>
+      </ScrollViewer>
+    </styles:NavigationDrawer.LeftDrawerContent>
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/> 
+        <RowDefinition/>
+        <RowDefinition Height="80"/>
+      </Grid.RowDefinitions>
+      <Carousel Grid.Row="1" Name="PageController" DockPanel.Dock="Top">
+        <Carousel.Styles>
+          <Style Selector="Carousel#PageController:not(.notransitions)">
+            <Setter Property="PageTransition">
+              <CompositePageTransition>
+                <PageSlide Duration="0.25" SlideInEasing="CircularEaseOut" SlideOutEasing="CircularEaseIn"/>
+                <CrossFade Duration="0.1" FadeOutEasing="CircularEaseIn" FadeInEasing="CircularEaseOut"/> 
+              </CompositePageTransition>
+            </Setter>
+          </Style>
+        </Carousel.Styles>
+        <pages:HomePage/>
+        <pages:SubtitlePage/>
+        <pages:PreferencesPage/>
+      </Carousel>
+      
+      <Grid Height="96" RowDefinitions="*, 0" HorizontalAlignment="Stretch">
+        <styles:ColorZone Mode="Custom" VerticalAlignment="Stretch"
+                          Padding="0,16"
+                          Background="{DynamicResource MaterialDesignPaper}"
+                          Foreground="{DynamicResource MaterialDesignBody}"
+                          Button.Foreground="{DynamicResource MaterialDesignBody}">
+          <Grid Margin="0" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="64"/>
+              <ColumnDefinition/>
+              <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <ToggleButton Grid.Column="0" Margin="16,0" Classes="Flat" 
+                          Padding="4" Name="DrawerToggle" Content="{avalonia:MaterialIconExt Menu}"/>
+            <TextBlock Grid.Column="1" Margin="16,0" Text="Title" 
+                       Classes="Headline6" VerticalAlignment="Center"/>
+            <ReversibleStackPanel Grid.Column="2" Name="ContextToolbarPanel" Margin="8, 0"/>
+          </Grid>
+        </styles:ColorZone>
+        <StackPanel Name="FloatingButtonContainer" Grid.Row="1" 
+                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Orientation="Horizontal">
+          <StackPanel.Styles>
+            <Style Selector="styles|FloatingButton">
+              <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+              <Setter Property="VerticalAlignment" Value="Center"/>
+              <Setter Property="Margin" Value="8,0"/>
+              <Setter Property="Padding" Value="4,0"/>
+            </Style>
+            <Style Selector="styles|FloatingButton[IsExtended=false]">
+              <Setter Property="HorizontalContentAlignment" Value="Center"/>
+              <Setter Property="Padding" Value="0"/>
+            </Style>
+            <Style Selector="styles|FloatingButton[IsExtended=false] TextBlock#PART_AdditionalText">
+              <Setter Property="IsVisible" Value="False"/>
+            </Style>
+          </StackPanel.Styles>
+        </StackPanel>
+      </Grid>
+      
+      <controls:PlayerDock Name="PlayerDockPanel" Grid.Row="2"
+                           ClipToBounds="False" DragDrop.AllowDrop="True"/>
+
+      <Grid Name="PlayInstantlyDropHint" Grid.Row="2" Background="#30000000"
+            IsHitTestVisible="False" IsVisible="false">
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Classes="Headline6"
+                   Text="Drop here to play instantly" IsHitTestVisible="False"/>
+      </Grid>
+    </Grid>
+  </styles:NavigationDrawer>
+</Window>

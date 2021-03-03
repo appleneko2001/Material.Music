@@ -1,0 +1,29 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+             xmlns:viewModels="clr-namespace:Material.Music.ViewModels"
+             xmlns:viewModels1="clr-namespace:Material.Music.Views.Dialogs.ViewModels"
+             xmlns:interfaces="clr-namespace:Material.Music.Core.Interfaces"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             x:Class="Material.Music.Views.Dialogs.SearchSubtitleDialog" 
+             x:DataType="viewModels1:SearchSubtitleViewModel">
+    <Grid RowDefinitions="Auto, *, Auto" ColumnDefinitions="*">
+        <Grid ColumnDefinitions="*, Auto" Margin="8">
+            <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Keywords"/>
+            <Button Grid.Column="1" Classes="Flat" Padding="16,4" Margin="16, 8, 0, 8">
+                <Grid ColumnDefinitions="Auto, 8, *">
+                    <avalonia:MaterialIcon Kind="Magnify" Width="16" Height="16"/>
+                    <TextBlock Grid.Column="2" Text="Search" VerticalAlignment="Center"/>
+                </Grid>
+            </Button>
+        </Grid>
+        
+        <ScrollViewer Grid.Row="1">
+            <ListBox>
+                
+            </ListBox>
+        </ScrollViewer>
+        
+        <TextBlock Grid.Row="1" Text="{CompiledBinding SelectedItemTip}"/>
+    </Grid>
+</UserControl>

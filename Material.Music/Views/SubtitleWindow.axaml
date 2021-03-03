@@ -1,0 +1,73 @@
+<Window x:Class="Material.Music.Views.SubtitleWindow"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+        xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+        xmlns:controls="clr-namespace:Material.Music.Views.Controls"
+        xmlns:pages="clr-namespace:Material.Music.Views.Pages"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:viewModels="clr-namespace:Material.Music.ViewModels"
+        xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        Background="Transparent" Topmost="True" 
+        TransparencyBackgroundFallback="Black"
+        TransparencyLevelHint="Transparent"
+        SizeToContent="WidthAndHeight"
+        SystemDecorations="None"
+        Closed="TopLevel_OnClosed"
+        Title="Subtitle host">
+        <Grid Name="Root" RowDefinitions="24, Auto" IsHitTestVisible="{Binding !LockWidget}">
+                <Grid.Styles>
+                        <Style Selector="Border.Background">
+                                <Setter Property="Background" Value="Black"/>
+                                <Setter Property="Opacity" Value="0"/>
+                        </Style>
+                        <Style Selector="Grid.Toolbar">
+                                <Setter Property="Opacity" Value="0"/>
+                        </Style>
+                        <Style Selector="Grid#Root:pointerover Border.Background">
+                                <Setter Property="Opacity" Value="0.25"/>
+                        </Style>
+                        <Style Selector="Grid#Root:pointerover Grid.Toolbar">
+                                <Setter Property="Opacity" Value="1"/>
+                        </Style>
+                </Grid.Styles>
+                
+                <Grid Classes="Toolbar">
+                        <Border Name="PART_Toolbar" Classes="Background"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <StackPanel.Styles>
+                                        <Style Selector="Button.Flat, ToggleButton.Flat">
+                                                <Setter Property="Padding" Value="4"/>
+                                                <Setter Property="Height" Value="24"/>
+                                                <Setter Property="Width" Value="24"/>
+                                        </Style>
+                                        <Style Selector="Button avalonia|MaterialIcon, ToggleButton avalonia|MaterialIcon">
+                                                <Setter Property="Height" Value="NaN"/>
+                                                <Setter Property="Width" Value="NaN"/>
+                                        </Style>
+                                        <Style Selector="Separator">
+                                                <Setter Property="Width" Value="1"/>
+                                                <Setter Property="Margin" Value="8"/>
+                                        </Style>
+                                </StackPanel.Styles>
+                                <Button Classes="Flat" Content="{avalonia:MaterialIconExt PlusBox}"/>
+                                <Button Classes="Flat" Content="{avalonia:MaterialIconExt MinusBox}"/>
+                                <Separator/>
+                                <Button Classes="Flat" Content="{avalonia:MaterialIconExt PlusBox}"/>
+                                <Button Classes="Flat" Content="{avalonia:MaterialIconExt MinusBox}"/>
+                                <Separator/>
+                                <ToggleButton Classes="Flat" Content="{avalonia:MaterialIconExt PinOff}" IsChecked="{Binding LockWidget, Mode=TwoWay}"/>
+                                <Button Classes="Flat" Content="{avalonia:MaterialIconExt Close}" Click="CloseButton_OnClick"/>
+                        </StackPanel>
+                </Grid>
+                
+                <Grid MinWidth="{Binding ElementName=PART_Toolbar, Path=Bounds.Width}" Grid.Row="1" PointerPressed="InputElement_OnPointerPressed" HorizontalAlignment="Center">
+                        <Border Classes="Background"/>
+                        <StackPanel HorizontalAlignment="Center">
+                                <TextBlock HorizontalAlignment="Center" Foreground="{DynamicResource PrimaryHueMidBrush}" Text="Subtitle line 1"/>
+                                <TextBlock HorizontalAlignment="Center" Foreground="{DynamicResource PrimaryHueMidBrush}" Text="Subtitle line 2"/>
+                        </StackPanel>
+                </Grid>
+        </Grid>
+</Window>

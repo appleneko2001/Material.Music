@@ -1,0 +1,13 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/contentModel.xml
+/projectSettingsUpdater.xml
+/.idea.Material.Music.iml
+/modules.xml
+# Datasource local storage ignored files
+/../../../../../../../:\Projects\Contributions\Material.Music\.idea\.idea.Material.Music\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/

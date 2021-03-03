@@ -1,0 +1,44 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:material="clr-namespace:Material.Styles;assembly=Material.Styles"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Material.Music.Views.Pages.NowPlayingPage">
+  <Grid>
+    <ScrollViewer HorizontalContentAlignment="Stretch">
+      <StackPanel Margin="32" MaxWidth="1200">
+
+        <material:Card Margin="16" DataContext="{Binding CurrentMedia}">
+          <StackPanel>
+            <TextBlock Text="Now playing" Classes="Headline6"/>
+            <StackPanel Orientation="Horizontal">
+              <Border Margin="0,16" BorderThickness="1" BorderBrush="Black">
+                <Image Width="240" Height="240"/>
+              </Border>
+              <StackPanel Margin="16">
+                <TextBlock Margin="0,4" Classes="Headline6" Text="{Binding Title}"/>
+                <TextBlock Margin="0,2" Text="{Binding TrackInfo.Album}"/>
+                <TextBlock Margin="0,2" Text="{Binding TrackInfo.Artist}"/>
+              </StackPanel> 
+            </StackPanel>
+          </StackPanel>
+        </material:Card>
+        <material:Card Margin="16" DataContext="{Binding CurrentPlaylist}">
+          <StackPanel>
+            <TextBlock Margin="0,8" Text="Queues" Classes="Headline6"/>
+            <ItemsRepeater Items="{Binding Playables}">
+              <ItemsRepeater.ItemTemplate>
+                <DataTemplate>
+                  <ListBoxItem>
+                    <TextBlock Margin="0,8" Text="{Binding Title}"/>
+                  </ListBoxItem>
+                </DataTemplate>
+              </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+          </StackPanel>
+        </material:Card>
+      </StackPanel>
+    </ScrollViewer>
+  </Grid>
+</UserControl>

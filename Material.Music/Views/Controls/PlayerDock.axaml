@@ -1,0 +1,104 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+             xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+             xmlns:local="clr-namespace:Material.Music.Views.Controls"
+             xmlns:viewModels="clr-namespace:Material.Music.ViewModels"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             x:Class="Material.Music.Views.Controls.PlayerDock"> 
+  <styles:Card ClipToBounds="False" InsideClipping="False" Padding="0">
+
+    <Grid Name="BaseControlDock" Background="{DynamicResource MaterialDesignPaper}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition/>
+        <ColumnDefinition Width="264"/>
+        <ColumnDefinition/>
+      </Grid.ColumnDefinitions>
+
+      <DockPanel>
+        <DockPanel.ContextMenu>
+          <ContextMenu>
+            <MenuItem Icon="{avalonia:MaterialIconExt TagTextOutline}" Header="Override media info"/>
+            <MenuItem Icon="{avalonia:MaterialIconExt TagRemoveOutline}" Header="Remove override info"/>
+          </ContextMenu>
+        </DockPanel.ContextMenu>
+        <Image Height="{Binding $parent.Height}" Width="{Binding $parent.Height}"
+               HorizontalAlignment="Left" Source="{Binding Path=NowPlayingCover}" DockPanel.Dock="Left"/>
+        <StackPanel Margin="4" VerticalAlignment="Center" DataContext="{Binding Path=CurrentMedia}"
+                    DockPanel.Dock="Left">
+          <TextBlock Text="{Binding Path=Title}" Margin="4,2" TextTrimming="CharacterEllipsis"
+                     ToolTip.Tip="{Binding Path=Title}"/>
+          <TextBlock Text="{Binding Path=TrackInfo}" Margin="4,2" TextTrimming="CharacterEllipsis"
+                     ToolTip.Tip="{Binding Path=TrackInfo}"/>
+        </StackPanel>
+      </DockPanel>
+
+      <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel.Styles>
+          <Style Selector="Button.Flat">
+            <Setter Property="Margin" Value="4, 0"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="Width" Value="36"/>
+            <Setter Property="Height" Value="36"/>
+          </Style>
+        </StackPanel.Styles>
+
+        <Button Classes="Flat" IsEnabled="false" Content="{avalonia:MaterialIconExt ShuffleDisabled}"/>
+        <Button Classes="Flat" Content="{avalonia:MaterialIconExt SkipPrevious}"/>
+        <Button Classes="Flat"
+                Command="{Binding PlayerCommands.PlayPauseCommand}"
+                CommandParameter="{Binding MediaChannel}">
+          <avalonia:MaterialIcon Kind="{Binding PlayPauseIcon}" Width="24" Height="24"/>
+        </Button>
+        <Button Classes="Flat" Content="{avalonia:MaterialIconExt SkipNext}"/>
+        <Button Classes="Flat"
+                Command="{Binding SwitchRepeatMode}">
+          <avalonia:MaterialIcon Kind="{Binding RepeatButtonIcon}" Width="24" Height="24"/>
+        </Button>
+      </StackPanel>
+      
+      <Slider Name="SeekBarSlider" Classes="Modern Discrete" Grid.Column="0" Grid.ColumnSpan="3" Height="20"
+              VerticalAlignment="Top" SmallChange="1" LargeChange="5" HorizontalAlignment="Stretch" 
+              Margin="0,-10,0,0" Value="{Binding CurrentPosition}" Maximum="{Binding Duration}">
+        <Slider.Styles>
+          <Style Selector="RepeatButton.HorizontalTrack.Modern.Active /template/ Border#PART_InnerBorder">
+            <Setter Property="Height" Value="4"/>
+            <Setter Property="Opacity" Value="0.75"/>
+          </Style>
+          
+          <Style Selector="Slider.Discrete Thumb /template/ ContentPresenter#bubble">
+            <Setter Property="Content">
+              <Template>
+                <Grid Name="InnerBubble" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                      Width="{Binding Bounds.Width, ElementName=PART_ContentContainer}"
+                      Height="{Binding Bounds.Height, ElementName=PART_ContentContainer}"
+                      ColumnDefinitions="Auto" RowDefinitions="Auto, Auto" ClipToBounds="False"
+                      RenderTransform="translate(0px, -16px)">
+                  <Polygon Grid.Row="1" Points="0,0 4.5,5 9,0" HorizontalAlignment="Center" RenderTransform="translate(0px,-0.5px)"
+                           Fill="{Binding Background, ElementName=PART_ContentContainer}"/>
+                  <Border Name="PART_Positioner" Background="Transparent" Padding="4, 8">
+                    <TextBlock Classes="Caption" Text="{Binding CurrentPositionDiscreteText}" Margin="8, 0" Foreground="Transparent"/>
+                  </Border>
+                  <Border Name="PART_ContentContainer" Background="{DynamicResource MaterialDesignToolTipBackground}" 
+                          Padding="4, 8" CornerRadius="2" RenderTransform="{Binding TransformedBounds, 
+                            ElementName=PART_Positioner, Converter={StaticResource AutoCorrectPositionConverter}}">
+                    <TextBlock Name="InnerBubbleText" Classes="Caption" Text="{Binding CurrentPositionDiscreteText}"
+                               Margin="8, 0" Foreground="{DynamicResource MaterialDesignBackground}"/>
+                  </Border>
+                </Grid>
+              </Template>
+            </Setter>
+          </Style>
+        </Slider.Styles>
+      </Slider>
+      
+      <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+        <ToggleButton IsChecked="{Binding IsSubtitleWindowOpen, Mode=TwoWay}" Classes="Flat ConstantForeground" Margin="4"
+                      Padding="8" Width="36" Height="36" Content="{avalonia:MaterialIconExt SubtitlesOutline}"/>
+        <local:VolumeControlWidget ClipToBounds="False"/>
+      </StackPanel>
+  
+    </Grid>
+  </styles:Card>
+</UserControl>

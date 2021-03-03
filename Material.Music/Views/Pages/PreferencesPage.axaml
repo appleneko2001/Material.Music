@@ -1,0 +1,104 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+             xmlns:viewModels="clr-namespace:Material.Music.ViewModels"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             x:Class="Material.Music.Views.Pages.PreferencesPage">
+  <ScrollViewer>
+    <Grid MaxWidth="800" Margin="48,16">
+      <Grid.Styles>
+        <Style Selector="TextBlock.Header">
+          <Setter Property="Margin" Value="0,16" />
+        </Style>
+        <Style Selector="TextBlock.Caption">
+          <Setter Property="Margin" Value="0,4,0,0" />
+          <Setter Property="Opacity" Value="0.7" />
+        </Style>
+        <Style Selector="Button.Flat">
+          <Setter Property="Padding" Value="4,12" />
+          <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+          <Setter Property="Height" Value="NaN" />
+        </Style>
+      </Grid.Styles>
+
+      <StackPanel>
+        <TextBlock Text="Preferences" Classes="Headline6 Header" />
+        <styles:Card Padding="0">
+          <styles:Card.Styles>
+            <Style Selector="Button.Flat">
+              <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
+            </Style>
+          </styles:Card.Styles>
+          <ItemsControl Items="{Binding PreferencesView}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate DataType="{x:Type viewModels:ToggleSetterViewModel}">
+                <Button Classes="Flat" Command="{Binding OnClicked}" 
+                        IsEnabled="{Binding CanClick}">
+                  <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="Auto,*,Auto">
+                    <avalonia:MaterialIcon Grid.RowSpan="2" Kind="{Binding SetterIcon}"
+                                           IsVisible="{Binding !!SetterIcon}" Margin="12,0,0,0" />
+
+                    <Grid Grid.Column="1" Grid.RowSpan="2" RowDefinitions="Auto,Auto" VerticalAlignment="Center"
+                          Margin="16, 0, 0, 0">
+                      <TextBlock Classes="Subtitle2" Text="{Binding SetterTitle}" />
+                      <TextBlock Grid.Row="1" Classes="Caption" Text="{Binding SetterCaption}" 
+                                 IsVisible="{Binding !!SetterCaption}"/>
+                    </Grid>
+                    
+                    <ToggleSwitch Grid.Column="2" Grid.RowSpan="2" VerticalAlignment="Center" Margin="12,0"
+                                  IsChecked="{Binding SetterValue, Mode=TwoWay}" />
+                  </Grid>
+                </Button>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </styles:Card>
+        
+        <Separator Height="16" />
+
+        <TextBlock Text="About" Classes="Headline6 Header" />
+        <styles:Card Padding="8">
+          <StackPanel>
+            <StackPanel.Styles>
+              <Style Selector="Button.Flat">
+                <Setter Property="Padding" Value="16,8" />
+                <Setter Property="Height" Value="NaN" />
+              </Style>
+            </StackPanel.Styles>
+            <TextBlock Classes="Headline6" Text="Material.Music Beta (NekoPlayer)" />
+
+            <WrapPanel Margin="0,8">
+              <TextBlock TextWrapping="Wrap"
+                         Text="An AvaloniaUI Framework based music player with Material design. By " />
+              <TextBlock TextWrapping="Wrap" Name="TextLink1" Classes="Link" Text="github@appleneko2001"
+                         PointerPressed="TextLink1_OnPointerPressed" />
+            </WrapPanel>
+            <TextBlock Text="This program used those third-party libraries:" Margin="0,2" />
+            <ItemsControl Margin="0,8">
+              <ItemsControl.Styles>
+                <Style Selector="TextBlock">
+                  <Setter Property="Margin" Value="8,2" />
+                </Style>
+              </ItemsControl.Styles>
+              <TextBlock Name="TextLink2" Classes="Link" Text="BASS Audio system library (and ManagedBASS)"
+                         PointerPressed="TextLink2_OnPointerPressed" />
+              <TextBlock Name="TextLink3" Classes="Link" Text="Material Design for AvaloniaUI"
+                         PointerPressed="TextLink3_OnPointerPressed" />
+              <TextBlock Name="TextLink8" Classes="Link" Text="TagLibSharp" />
+            </ItemsControl>
+            
+            <TextBlock Text="My links" Margin="0,8" Classes="Headline6" />
+            <StackPanel Orientation="Horizontal" Margin="0,2">
+              <Button Classes="Flat Accent" Content="Github" Click="GithubLink1_OnClick"/>
+              <Border Width="4" />
+              <Button Classes="Flat Accent" Content="Twitter" Click="TwitterButton_OnClick"/>
+              <Border Width="4" />
+              <Button Classes="Flat Accent" Content="Discord" Click="DiscordButton_OnClick"/>
+            </StackPanel>
+          </StackPanel>
+        </styles:Card>
+      </StackPanel>
+    </Grid>
+  </ScrollViewer> 
+</UserControl>

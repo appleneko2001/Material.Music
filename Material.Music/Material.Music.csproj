@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <Nullable>enable</Nullable>
+        <LangVersion>8</LangVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="0.10.0" />
+        <PackageReference Include="Avalonia.Desktop" Version="0.10.0" />
+        <PackageReference Include="Avalonia.Diagnostics" Version="0.10.0" />
+        <PackageReference Include="ManagedBass" Version="3.0.0" />
+        <PackageReference Include="ReactiveUI" Version="13.1.1" />
+        <PackageReference Include="taglib-sharp-netstandard2.0" Version="2.1.0" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\material.avalonia\Material.Avalonia\Material.Avalonia.csproj" />
+      <ProjectReference Include="..\..\material.avalonia\Material.Dialog\Material.Dialog.csproj" />
+    </ItemGroup>
+</Project>
