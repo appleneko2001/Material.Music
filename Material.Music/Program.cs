@@ -22,6 +22,7 @@ namespace Material.Music
 
         private static IPCPipeInterface _ipcPipe;
 
+        [STAThread]
         public static void Main(string[] args)
         { 
             var mutex = new Mutex(true, IdenticatorMutex, out var notRunning); 
