@@ -17,13 +17,13 @@
                 <Setter Property="Margin" Value="2"/>
             </Style>
         </Grid.Styles>
-        <StackPanel IsVisible="{Binding !!SubtitleItems}" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <StackPanel IsVisible="{Binding !SubtitleItems.Count}" VerticalAlignment="Center" HorizontalAlignment="Center">
             <avalonia:MaterialIcon Kind="HelpRhombusOutline" Width="64" Height="64" Margin="16"/>
             <TextBlock Classes="Centered Body1" Text="No subtitle or not loaded for show."/>
             <TextBlock Classes="Centered Body1" Text="For load and show subtitle, press search subtitle or load subtitle file."/>
         </StackPanel>
-        <ScrollViewer HorizontalContentAlignment="Stretch">
-            <ItemsControl Items="{Binding SubtitleItems}">
+        <ScrollViewer Name="SubtitleScroller" HorizontalContentAlignment="Stretch">
+            <ItemsControl Name="SubtitleTextContainer" Items="{Binding SubtitleItems}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="viewModels:SubtitlePageItemViewModel">
                         <StackPanel Margin="0, 8">
