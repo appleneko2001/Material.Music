@@ -2,3 +2,9 @@
 	path = material.avalonia
 	url = https://github.com/AvaloniaUtils/material.avalonia/
 	branch = dev
+[submodule "LyricXml"]
+	path = LyricXml
+	url = https://github.com/appleneko2001/LyricXml
+[submodule "LrcParser"]
+	path = LrcParser
+	url = https://github.com/appleneko2001/LrcParser
