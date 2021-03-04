@@ -13,6 +13,9 @@
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="TextAlignment" Value="Center"/>
             </Style>
+            <Style Selector="TextBlock.Body1">
+                <Setter Property="Margin" Value="2"/>
+            </Style>
         </Grid.Styles>
         <StackPanel IsVisible="{Binding !!SubtitleItems}" VerticalAlignment="Center" HorizontalAlignment="Center">
             <avalonia:MaterialIcon Kind="HelpRhombusOutline" Width="64" Height="64" Margin="16"/>
