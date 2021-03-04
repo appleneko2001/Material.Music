@@ -143,7 +143,7 @@ namespace Material.Music.Core.Engine
         #endregion
 
         #region System.Threading Timer Controller
-        private const int TimerCallPeriod = 50; // 50 / 1000 = 50 times call per sec.
+        private const int TimerCallPeriod = 100; // 50 / 1000 = 50 times call per sec.
         private Timer _updateTickTimer;
 
         private void InitTimer() => _updateTickTimer = new Timer((s) => TimerCallbackFunction());
@@ -249,6 +249,8 @@ namespace Material.Music.Core.Engine
                 throw new ArgumentNullException(nameof(media));
             try
             {
+                BassCurrentChannel?.Pause();
+                
                 OnChannelStatusChanged?.Invoke(this,
                     new ChannelStatusEventArgs
                         {Channel = BassChannel.Null, Playable = null, Status = ChannelStatusEnums.Unloaded});
