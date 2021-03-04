@@ -252,6 +252,12 @@ namespace Material.Music.Core
             RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? $"{name}.dll" :
             RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ? $"lib{name}.so" :
             RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ? $"lib{name}.dylib" : $"{name}";
+        
+        public static void CreateIfNotExistDir(string targetPath)
+        {
+            if (!Directory.Exists(targetPath))
+                Directory.CreateDirectory(targetPath);
+        }
     }
 }
 
