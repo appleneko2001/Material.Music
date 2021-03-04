@@ -69,7 +69,7 @@
                           Padding="4" Name="DrawerToggle" Content="{avalonia:MaterialIconExt Menu}"/>
             <TextBlock Grid.Column="1" Margin="16,0" Text="Title" 
                        Classes="Headline6" VerticalAlignment="Center"/>
-            <ReversibleStackPanel Grid.Column="2" Name="ContextToolbarPanel" Margin="8, 0"/>
+            <ReversibleStackPanel Grid.Column="2" Name="ContextToolbarPanel" Margin="8, 0" Orientation="Horizontal"/>
           </Grid>
         </styles:ColorZone>
         <StackPanel Name="FloatingButtonContainer" Grid.Row="1" 
