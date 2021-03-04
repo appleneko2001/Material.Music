@@ -6,24 +6,57 @@
              xmlns:interfaces="clr-namespace:Material.Music.Core.Interfaces"
              xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              x:Class="Material.Music.Views.Dialogs.SearchSubtitleDialog" 
-             x:DataType="viewModels1:SearchSubtitleViewModel">
-    <Grid RowDefinitions="Auto, *, Auto" ColumnDefinitions="*">
-        <Grid ColumnDefinitions="*, Auto" Margin="8">
-            <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Keywords"/>
-            <Button Grid.Column="1" Classes="Flat" Padding="16,4" Margin="16, 8, 0, 8">
-                <Grid ColumnDefinitions="Auto, 8, *">
-                    <avalonia:MaterialIcon Kind="Magnify" Width="16" Height="16"/>
-                    <TextBlock Grid.Column="2" Text="Search" VerticalAlignment="Center"/>
-                </Grid>
-            </Button>
+             x:DataType="viewModels1:SearchSubtitleViewModel"
+             Name="RootControl">
+    <Carousel SelectedIndex="{CompiledBinding CarouselIndex}">
+        <Grid RowDefinitions="Auto, *, Auto" ColumnDefinitions="*">
+            <Grid ColumnDefinitions="*, Auto" Margin="8">
+                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Keywords" Text="{CompiledBinding Keywords, Mode=TwoWay}"/>
+                <Button Grid.Column="1" Classes="Flat" Padding="16,4" Margin="16, 8, 0, 8"
+                        IsEnabled="{CompiledBinding !SearchProcessing}"
+                        Command="{Binding Search}">
+                    <Grid ColumnDefinitions="Auto, 8, *">
+                        <avalonia:MaterialIcon Kind="Magnify" Width="16" Height="16"/>
+                        <TextBlock Grid.Column="2" Text="Search" VerticalAlignment="Center"/>
+                    </Grid>
+                </Button>
+            </Grid>
+        
+            <ScrollViewer Grid.Row="1" MaxHeight="350">
+                <StackPanel>
+                    <ItemsControl Items="{CompiledBinding ResultList}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="viewModels1:SearchSubtitleResultItemViewModel">
+                                <Button Classes="Flat" HorizontalAlignment="Stretch" Click="Button_OnClick">
+                                    <TextBlock Text="{CompiledBinding Name}" TextAlignment="Left"/>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
+        
+            <TextBlock Grid.Row="1" Text="{CompiledBinding SelectedItemTip}"/>
         </Grid>
         
-        <ScrollViewer Grid.Row="1">
-            <ListBox>
-                
-            </ListBox>
-        </ScrollViewer>
-        
-        <TextBlock Grid.Row="1" Text="{CompiledBinding SelectedItemTip}"/>
-    </Grid>
+        <StackPanel DataContext="{CompiledBinding SelectedItem}">
+            <Button Classes="Flat" Margin="0,0,0,16" Click="BackButton_OnClick">
+                <Grid ColumnDefinitions="Auto, 8, *">
+                    <avalonia:MaterialIcon Kind="ArrowLeft" Width="16" Height="16"/>
+                    <TextBlock Grid.Column="2" Text="BACK" VerticalAlignment="Center"/>
+                </Grid>
+            </Button>
+            <TextBlock Classes="Subtitle1" Text="More information:"/>
+            <StackPanel Margin="0, 8">
+                <TextBlock Text="{CompiledBinding Name}"/>
+                <TextBlock Classes="Subtitle2" Text="{CompiledBinding Title}"/>
+                <TextBlock Text="{CompiledBinding Artists}"/>
+                <TextBlock Text="{CompiledBinding Album}"/>
+            </StackPanel>
+            
+            <Button Classes="Flat" Click="DownloadButton_OnClick" IsEnabled="{Binding !DataContext.Downloading, ElementName=RootControl}">
+                <TextBlock Text="DOWNLOAD"/>
+            </Button>
+        </StackPanel>
+    </Carousel>
 </UserControl>
