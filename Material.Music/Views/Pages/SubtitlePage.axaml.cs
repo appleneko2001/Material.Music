@@ -23,7 +23,8 @@ namespace Material.Music.Views.Pages
 
             _actionBarMenus = new[]
             {
-                CreateActionMenu(MaterialIconKind.Magnify, SearchSubtitle, "Search subtitle / lyric")
+                CreateActionMenu(MaterialIconKind.Magnify, SearchSubtitle, "Search subtitle / lyric"),
+                CreateActionMenu(MaterialIconKind.FileUploadOutline, null, "Load local subtitle / lyric")
             };
             
             DataContext = PlayerContext.GetInstance();
@@ -61,7 +62,7 @@ namespace Material.Music.Views.Pages
                     Kind = iconKind
                 },
             };
-            b.Click += (a, b) => onClick();
+            b.Click += (a, b) => onClick?.Invoke();
             b.SetValue(ToolTip.TipProperty, tip);
             return b;
         }
