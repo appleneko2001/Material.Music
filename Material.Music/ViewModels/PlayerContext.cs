@@ -145,7 +145,6 @@ namespace Material.Music.ViewModels
             {
                 _currentMedia = value; 
                 OnPropertyChanged();
-                Dispatcher.UIThread.InvokeAsync(PlayerCommands.PlayPauseCommand.RaiseCanExecute);
             }
         }
 
@@ -250,6 +249,7 @@ namespace Material.Music.ViewModels
             {
                 _currentMediaChannel = value;
                 Dispatcher.UIThread.InvokeAsync(() => OnPropertyChanged("MediaChannel"));
+                Dispatcher.UIThread.InvokeAsync(PlayerCommands.PlayPauseCommand.RaiseCanExecute);
             }
         }
 
