@@ -32,7 +32,7 @@ jobs:
       run: dotnet restore
       
     - name: Publish
-      run: dotnet publish --configuration Release --no-self-contained --runtime "${{ matrix.runtime }}"
+      run: dotnet publish -v minimal --configuration Release --no-self-contained --runtime "${{ matrix.runtime }}" -p:GeneratePackageOnBuild=false
 
     - name: Copy NativeLibs (for Windows x64)
       if: matrix.runtime == 'win-x64'
