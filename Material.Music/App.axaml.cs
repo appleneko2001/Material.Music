@@ -15,8 +15,10 @@ using Material.Music.Core;
 using Material.Music.Core.Engine;
 using Material.Music.Core.LocalMedia;
 using Material.Music.ManagedBassFix.Tags;
+using Material.Music.Online;
 using Material.Music.ViewModels;
 using Material.Music.Views;
+using NeteaseCloudMusic.Provider;
 
 namespace Material.Music
 {
@@ -53,6 +55,8 @@ namespace Material.Music
                 if (File.Exists(startUpArgs.ElementAt(0)))
                     PlayMedia(startUpArgs.ElementAt(0));
             }
+
+            ApiManager.Instance.RegisterSubtitleApi(new NcmSubtitleProvider());
             
             base.Initialize();
         }
