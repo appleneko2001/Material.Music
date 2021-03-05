@@ -46,16 +46,26 @@ namespace NeteaseCloudMusic.Provider
             var root = GetResult(CloudMusicApiProviders.Lyric, 
                 new Dictionary<string, object>() { { "id", id } });
             var data = root.ToObject<LyricDetailDataModel>();
-            var subs = new Dictionary<string, string>()
-            {
-                {"origin", data.LyricDetails.LyricData}
-            };
+            var subs = new Dictionary<string, string>();
+
+            if(data.LyricDetails != null)
+                subs.Add("origin", data.LyricDetails.LyricData);
             if(data.TranslatedLyricDetails != null)
                 subs.Add("zh-hans", data.TranslatedLyricDetails.LyricData);
+
+            var contributors = new Dictionary<string, string>();
+            if(data.LyricBy!= null)
+                contributors.Add("origin", data.LyricBy.Nickname);
+            if(data.TranslatedBy != null)
+                contributors.Add("zh-hans", data.TranslatedBy.Nickname);
+            
             var result = new DownloadSubtitleResult()
             {
                 SubtitleType = SubtitleType.Lrc,
-                Subtitles = subs
+                Subtitles = subs,
+                ContributedBy = contributors,
+                Provider = ProviderName,
+                ProviderInfoLink = ProviderLink
             };
             return result;
         }
