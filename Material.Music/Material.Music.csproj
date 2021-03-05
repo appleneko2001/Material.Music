@@ -28,4 +28,7 @@
     <ItemGroup>
       <Folder Include="Core\Subtitles" />
     </ItemGroup>
+    <ItemGroup>
+        <AvaloniaResource Include="Assets\**" />
+    </ItemGroup>
 </Project>
