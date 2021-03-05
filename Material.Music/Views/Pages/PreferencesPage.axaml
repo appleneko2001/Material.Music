@@ -74,7 +74,7 @@
               <TextBlock TextWrapping="Wrap" Name="TextLink1" Classes="Link" Text="github@appleneko2001"
                          PointerPressed="TextLink1_OnPointerPressed" />
             </WrapPanel>
-            <TextBlock Text="This program used those third-party libraries:" Margin="0,2" />
+            <TextBlock Text="This program using those third-party libraries:" Margin="0,2" />
             <ItemsControl Margin="0,8">
               <ItemsControl.Styles>
                 <Style Selector="TextBlock">
@@ -86,6 +86,17 @@
               <TextBlock Name="TextLink3" Classes="Link" Text="Material Design for AvaloniaUI"
                          PointerPressed="TextLink3_OnPointerPressed" />
               <TextBlock Name="TextLink8" Classes="Link" Text="TagLibSharp" />
+            </ItemsControl>
+            
+            <TextBlock Text="This program using those third-party online services:" Margin="0,2" />
+            <ItemsControl Margin="0,8">
+              <ItemsControl.Styles>
+                <Style Selector="TextBlock">
+                  <Setter Property="Margin" Value="8,2" />
+                </Style>
+              </ItemsControl.Styles>
+              <TextBlock Classes="Link" Text="Netease Cloud Music (music.163.com)"
+                         PointerPressed="TextLink2_OnPointerPressed" />
             </ItemsControl>
             
             <TextBlock Text="My links" Margin="0,8" Classes="Headline6" />
