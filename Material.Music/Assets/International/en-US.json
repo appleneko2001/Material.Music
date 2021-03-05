@@ -1,4 +1,7 @@
 {
-  "LanguageName": "English",
-  "ToolTip/Volume": "Volume: {0}"
+  "Language.Name": "English",
+  "ToolTip.Volume": "Volume: {0}",
+  "SearchSubtitle.Artist": "Artist: {0}",
+  "SearchSubtitle.Album": "Album: {0}",
+  "SearchSubtitle.UnableDownload": "Fail: {0}"
 }
