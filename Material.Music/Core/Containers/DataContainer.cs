@@ -15,8 +15,9 @@ namespace Material.Music.Core.Containers
         public static string SubtitlesPath = Path.Combine(AppdataPath, "Subtitles");
 
         public static event EventHandler<string> OnSavedSubtitle; 
+        public static event EventHandler<string> OnDeletedSubtitle; 
         
-        public static string ConvertLrcToXLrc(Dictionary<string, string> lrcs)
+        public static string ConvertLrcToXLrc(Dictionary<string, string> lrcs, IReadOnlyDictionary<string, string> additionalParams = null)
         {
             var lyrics = new Dictionary<string, IParseResult<Line>>();
             foreach (var lrc in lrcs)
@@ -43,15 +44,43 @@ namespace Material.Music.Core.Containers
                             Timestamp = line.Timestamp
                         };
                     }
-
-                    item.Elements.Add(lyric.Key, line.Content);
-
+                    
+                    if (item.Elements.ContainsKey(lyric.Key))
+                    {
+                        if(!string.IsNullOrWhiteSpace(line.Content))
+                            item.Elements.Add(lyric.Key + "1", line.Content);
+                    }
+                    else
+                    {
+                        item.Elements.Add(lyric.Key, line.Content);
+                    }
+                    
                     if (!xmlLyric.Timelines.Exists(e => e == item))
                         xmlLyric.Timelines.Add(item);
                 }
                 xmlLyric.AddLanguage(lyric.Key);
             }
+
+            if (additionalParams != null)
+            {
+                foreach (var param in additionalParams)
+                {
+                    xmlLyric.Attributes.Add(param.Key, param.Value);
+                }
+            }
+            
             return xmlLyric.ToXml();
+        }
+
+        public static void DeleteSubtitle(PlayableBase target)
+        {
+            var hash = target.GetObjectHash();
+            var path = Path.Combine(SubtitlesPath, $"{hash}.xlrc");
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+                OnDeletedSubtitle?.Invoke(null, hash);
+            }
         }
         
         public static void SaveSubtitle(DownloadSubtitleResult result, PlayableBase target)
@@ -60,10 +89,25 @@ namespace Material.Music.Core.Containers
             
             if (result.SubtitleType is SubtitleType.Lrc)
             {
-                var xml = ConvertLrcToXLrc(result.Subtitles);
-                var path = Path.Combine(SubtitlesPath, $"{target.GetObjectHash()}.xlrc");
+                var attributes = new Dictionary<string, string>();
+                attributes.Add(nameof(result.Provider), result.Provider);
+                if (!string.IsNullOrWhiteSpace(result.ProviderInfoLink))
+                {
+                    attributes.Add(nameof(result.ProviderInfoLink), result.ProviderInfoLink);
+                }
+                foreach (var contributor in result.ContributedBy)
+                {
+                    attributes.Add($"{contributor.Key}-Contributor", contributor.Value);
+                }
+                
+                var xml = ConvertLrcToXLrc(result.Subtitles, attributes);
+                var hash = target.GetObjectHash();
+                var path = Path.Combine(SubtitlesPath, $"{hash}.xlrc");
+
+                DeleteSubtitle(target);
+                
                 File.WriteAllText(path, xml);
-                OnSavedSubtitle(null, target.GetObjectHash());
+                OnSavedSubtitle(null, hash);
             }
         }
 
