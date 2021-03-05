@@ -60,9 +60,9 @@ namespace Material.Music.ViewModels
 
         public void UpdateSubtitlePage(PlayableBase playable)
         {
+            UnloadCurrentSubtitle();
             if (playable is null)
             {
-                _subtitleItems.Clear();
                 return;
             }
 
@@ -100,6 +100,11 @@ namespace Material.Music.ViewModels
             {
                 Console.WriteLine(e);
             }
+        }
+
+        public void UnloadCurrentSubtitle()
+        {
+            _subtitleItems.Clear();
         }
     }
 }
