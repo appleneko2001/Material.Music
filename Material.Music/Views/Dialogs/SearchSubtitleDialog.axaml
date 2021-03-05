@@ -5,30 +5,35 @@
              xmlns:viewModels1="clr-namespace:Material.Music.Views.Dialogs.ViewModels"
              xmlns:interfaces="clr-namespace:Material.Music.Core.Interfaces"
              xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:localizer="clr-namespace:Material.Music.Localizer"
+             xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
              x:Class="Material.Music.Views.Dialogs.SearchSubtitleDialog" 
              x:DataType="viewModels1:SearchSubtitleViewModel"
              Name="RootControl">
     <Carousel SelectedIndex="{CompiledBinding CarouselIndex}">
         <Grid RowDefinitions="Auto, *, Auto" ColumnDefinitions="*">
-            <Grid ColumnDefinitions="*, Auto" Margin="8">
-                <TextBox UseFloatingWatermark="True" assists:TextFieldAssist.Label="Keywords" Text="{CompiledBinding Keywords, Mode=TwoWay}"/>
-                <Button Grid.Column="1" Classes="Flat" Padding="16,4" Margin="16, 8, 0, 8"
-                        IsEnabled="{CompiledBinding !SearchProcessing}"
-                        Command="{Binding Search}">
-                    <Grid ColumnDefinitions="Auto, 8, *">
-                        <avalonia:MaterialIcon Kind="Magnify" Width="16" Height="16"/>
-                        <TextBlock Grid.Column="2" Text="Search" VerticalAlignment="Center"/>
-                    </Grid>
-                </Button>
-            </Grid>
+            <TextBox KeyDown="Search_OnKeyDown" Watermark="Search" Classes="Solo"
+                     BorderBrush="{Binding $self.Foreground}" BorderThickness="1" 
+                     assists:TextFieldAssist.CornerRadius="32" Margin="8" 
+                     Text="{CompiledBinding Keywords, Mode=TwoWay}" 
+                     IsEnabled="{CompiledBinding !SearchProcessing}">
+                <TextBox.InnerRightContent>
+                    <Button Width="{Binding $self.Bounds.Height}"
+                            Classes="Flat" Command="{Binding Search}" IsEnabled="{CompiledBinding !SearchProcessing}"
+                            assists:ButtonAssist.CornerRadius="0">
+                        <avalonia:MaterialIcon Kind="Magnify" Width="20" Height="20"/>
+                    </Button>
+                </TextBox.InnerRightContent>
+            </TextBox>
         
-            <ScrollViewer Grid.Row="1" MaxHeight="350">
-                <StackPanel>
+            <ScrollViewer Name="Scroller" Grid.Row="1" MaxHeight="350" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel Width="{Binding Bounds.Width, ElementName=Scroller}">
                     <ItemsControl Items="{CompiledBinding ResultList}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="viewModels1:SearchSubtitleResultItemViewModel">
-                                <Button Classes="Flat" HorizontalAlignment="Stretch" Click="Button_OnClick">
-                                    <TextBlock Text="{CompiledBinding Name}" TextAlignment="Left"/>
+                                <Button Classes="Flat" HorizontalAlignment="Stretch" Click="Button_OnClick" HorizontalContentAlignment="Left">
+                                    <TextBlock Text="{CompiledBinding Name}" TextAlignment="Left"
+                                               TextTrimming="CharacterEllipsis"/>
                                 </Button>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -48,11 +53,25 @@
             </Button>
             <TextBlock Classes="Subtitle1" Text="More information:"/>
             <StackPanel Margin="0, 8">
-                <TextBlock Text="{CompiledBinding Name}"/>
                 <TextBlock Classes="Subtitle2" Text="{CompiledBinding Title}"/>
-                <TextBlock Text="{CompiledBinding Artists}"/>
-                <TextBlock Text="{CompiledBinding Album}"/>
+                <TextBlock >
+                    <TextBlock.Text>
+                        <CompiledBinding Path="Artists" 
+                                         StringFormat="{localizer:Localize Context=SearchSubtitle, Key=Artist, UseBinding=false}"/>
+                    </TextBlock.Text>
+                </TextBlock>
+                <TextBlock >
+                    <TextBlock.Text>
+                        <CompiledBinding Path="Album" 
+                                         StringFormat="{localizer:Localize Context=SearchSubtitle, Key=Album, UseBinding=false}"/>
+                    </TextBlock.Text>
+                </TextBlock>
             </StackPanel>
+            
+            <TextBlock Text="{Binding ElementName=RootControl, Path=DataContext.DownloadFailReason, 
+                            StringFormat={localizer:Localize Context=SearchSubtitle, Key=UnableDownload, UseBinding=False}}"
+                       Foreground="{Binding (assists:TextFieldAssist.ErrorColor), RelativeSource={RelativeSource Self}}"
+                       IsVisible="{Binding ElementName=RootControl, Path=!!DataContext.DownloadFailReason}"/>
             
             <Button Classes="Flat" Click="DownloadButton_OnClick" IsEnabled="{Binding !DataContext.Downloading, ElementName=RootControl}">
                 <TextBlock Text="DOWNLOAD"/>

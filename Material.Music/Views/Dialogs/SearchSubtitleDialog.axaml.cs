@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
@@ -62,15 +64,25 @@ namespace Material.Music.Views.Dialogs
                 {
                     _viewModel.Downloading = true;
                     var result = _viewModel.selectedProvider.DownloadSubtitle(_viewModel.SelectedItem.Id);
+
+                    if (result.Subtitles.Count == 0)
+                        throw new ArgumentNullException("This subtitle file is empty (no texts)");
+
                     DataContainer.SaveSubtitle(result, _targetPlayable);
                     Dispatcher.UIThread.InvokeAsync(() => _dialogHost?.GetWindow().Close());
                 }
-                catch
+                catch(Exception e)
                 {
-                    
+                    _viewModel.DownloadFailReason = e.Message;
                 }
                 _viewModel.Downloading = false;
             });
+        }
+
+        private void Search_OnKeyDown(object? sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                _viewModel.Search();
         }
     }
 }

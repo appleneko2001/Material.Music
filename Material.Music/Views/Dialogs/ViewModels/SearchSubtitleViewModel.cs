@@ -62,6 +62,17 @@ namespace Material.Music.Views.Dialogs.ViewModels
             }
         }
 
+        private string _downloadFailReason;
+        public string DownloadFailReason
+        {
+            get => _downloadFailReason;
+            set
+            {
+                _downloadFailReason = value;
+                OnPropertyChanged();
+            }
+        }
+
         public void Search()
         {
             Task.Run(() =>
