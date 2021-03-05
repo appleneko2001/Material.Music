@@ -10,6 +10,12 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.Presenters;
+using Avalonia.Layout;
+using Avalonia.Media;
+using Avalonia.Threading;
 using Material.Music.Core.Interfaces;
 
 namespace Material.Music.Core
@@ -259,7 +265,40 @@ namespace Material.Music.Core
                 Directory.CreateDirectory(targetPath);
         }
     }
+
+    //https://stackoverflow.com/questions/2946954/make-listview-scrollintoview-scroll-the-item-into-the-center-of-the-listview-c
+    
+    public static class ItemsControlExtensions
+    {
+        public static void ScrollToCenterOfView(this ItemsControl itemsControl, ScrollViewer scrollViewer, int index)
+        {
+            Dispatcher.UIThread.InvokeAsync(() => itemsControl.TryScrollToCenterOfView(scrollViewer, index),
+                DispatcherPriority.Loaded);
+        }
+
+        private static bool TryScrollToCenterOfView(this ItemsControl itemsControl, ScrollViewer scrollViewer, int index)
+        {
+            var container =
+                itemsControl.ItemContainerGenerator.ContainerFromIndex(index);
+            if (container == null) return false;
+
+            var size = container.DesiredSize;
+            var viewport = scrollViewer.Viewport;
+            var centerMatrix = container.TranslatePoint(new Point(0, 0), itemsControl);
+
+            if (centerMatrix.HasValue)
+            {
+                var x = centerMatrix.Value.X - viewport.Width / 2;
+                var y = centerMatrix.Value.Y - viewport.Height / 2;
+            
+                scrollViewer.Offset = new Vector(x, y);
+            }
+            return true;
+        }
+    }
 }
+
+
 
 
 namespace MurMur3
