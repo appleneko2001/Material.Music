@@ -13,17 +13,25 @@ namespace Material.Music.Localizer
     {
         private const string IndexerName = "Item";
         private const string IndexerArrayName = "Item[]";
-        private Dictionary<string, string> m_Strings = null;
+        private Dictionary<string, string> _strings = null;
 
         public bool LoadLanguage(string language)
         {
+            var comparer = StringComparer.OrdinalIgnoreCase;
+            _strings = new Dictionary<string, string>(comparer);
+            
             Language = language;
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
-            Uri uri = new Uri($"avares://Material.Music/Assets/International/{language}.json");
+            var uri = new Uri($"avares://Material.Music/Assets/International/{language}.json");
             if (assets.Exists(uri)) {
-                using (StreamReader sr = new StreamReader(assets.Open(uri), Encoding.UTF8)) {
-                    m_Strings = JsonConvert.DeserializeObject<Dictionary<string, string>>(sr.ReadToEnd());
+                using (var sr = new StreamReader(assets.Open(uri), Encoding.UTF8))
+                {
+                    var COLLECTION = JsonConvert.DeserializeObject<Dictionary<string, string>>(sr.ReadToEnd());
+                    foreach (var variable in COLLECTION)
+                    {
+                        _strings.Add(variable.Key, variable.Value);
+                    }
                 }
                 Invalidate();
 
@@ -39,7 +47,7 @@ namespace Material.Music.Localizer
             get
             {
                 string res;
-                if (m_Strings != null && m_Strings.TryGetValue(key, out res))
+                if (_strings != null && _strings.TryGetValue(key, out res))
                     return res.Replace("\\n", "\n");
 
                 return $"{Language}:{key}";
