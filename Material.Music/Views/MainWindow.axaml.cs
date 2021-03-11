@@ -31,6 +31,8 @@ namespace Material.Music.Views
     public class MainWindow : Window
     {
         #region Page control members
+
+        private Grid AppBarTop;
         private Grid PlayInstantlyDropHint;
         private StackPanel FloatingButtonContainer;
         private Carousel PageController;
@@ -40,7 +42,11 @@ namespace Material.Music.Views
         private ReversibleStackPanel ContextToolbarPanel;
 
         private static MainWindow _instance;
+        
         #endregion
+
+        private const double AppBarMinimized = 64;
+        private const double AppBarWithFabs = 96;
 
         public static MainWindow Instance => _instance;
 
@@ -50,6 +56,8 @@ namespace Material.Music.Views
             void InitializeComponent() => AvaloniaXamlLoader.Load(this);
 
             InitializeComponent();
+
+            AppBarTop = this.Get<Grid>(nameof(AppBarTop));
 
             PlayInstantlyDropHint = this.Get<Grid>(nameof(PlayInstantlyDropHint));
             var playerDockPanel = this.Get<PlayerDock>("PlayerDockPanel");
@@ -176,8 +184,14 @@ namespace Material.Music.Views
                 FloatingButtonContainer.Children.Add(CreatePlaylistFAB);
 
             UpdateFloatingButtonExtendedStatus(ClientSize);
+            UpdateAppBarStatus();
         }
 
+        public void UpdateAppBarStatus()
+        {
+            AppBarTop.Height = FloatingButtonContainer.Children.Count > 0 ? AppBarWithFabs : AppBarMinimized;
+        }
+        
         public void ChangeActionMenus()
         {
             ContextToolbarPanel.Children.Clear();
