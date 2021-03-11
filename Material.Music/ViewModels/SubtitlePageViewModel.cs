@@ -4,7 +4,6 @@ using System.Linq;
 using LyricXml;
 using Material.Music.Core;
 using Material.Music.Core.Containers;
-using Opportunity.LrcParser;
 
 namespace Material.Music.ViewModels
 {
